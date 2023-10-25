@@ -15,7 +15,7 @@ function start(client) {
     if (message.isGroupMsg === false) {
       const user = message.from; //Aqui é armazenada as informações do user que está interagindo com o bot(message.from = mensagem de "user")
       if (!conversationState[user]) { //Aqui faz um teste se o user já existe, caso não ele cria na proxima linha e incia na etapa 0
-        conversationState[user] = {step: 0};
+        conversationState[user] = { step: 0 };
       }
 
       handleConversation(client, user, message.body); //(cliente atual, dados do user de origem, corpo da mensagem)
@@ -73,7 +73,7 @@ function saudacaoPorHora() {
   }
 }
 
-function mensagemInicial(client, texto) {
+async function mensagemInicial(client, texto) {
   const hora = saudacaoPorHora();
   const textoInicial =
     hora +
@@ -82,74 +82,127 @@ function mensagemInicial(client, texto) {
     "\n2. Segunda opção" +
     "\n3. Terceira opção" +
     "\n4. Finalizar o atendimento";
-  client
+
+  try {
+    let resultado = await client
+      .sendText(texto, textoInicial);
+    console.log('Result: ', resultado)
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+  /*
+    client
     .sendText(texto, textoInicial)
     .then((result) => {
       console.log("Result: ", result);
     })
     .catch((error) => {
       console.error("Erro ao enviar mensagem: ", error);
-    });
+    });*/
 }
 
-function sendDefaultResponse(client, recipient) {
+async function sendDefaultResponse(client, recipient) {
   // Resposta padrão para mensagens que o bot não entende.
   const response =
     "Desculpe, não entendi sua pergunta. Por favor, digite algo referente as opções para obter informações relevantes.";
-  client
+
+  try {
+    let resultado = await client
+      .sendText(recipient, response);
+    console.log('Result: ', resultado);
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+  /*  client
     .sendText(recipient, response)
     .then((result) => {
       console.log("Result: ", result);
     })
     .catch((error) => {
       console.error("Erro ao enviar mensagem: ", error);
-    });
+    });*/
 }
 
-function funcOne(client, text) {
+async function funcOne(client, text) {
   const response = "Primeira Opção";
-  client
+
+  try {
+    let resultado = await client
+      .sendText(text, response)
+    console.log('Result: ', resultado)
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+
+  /*client
     .sendText(text, response)
     .then((result) => {
       console.log("Result: ", result);
     })
     .catch((error) => {
       console.error("Erro ao enviar mensagem: ", error);
-    });
+    });*/
 }
 
-function funcTwo(client, text) {
+async function funcTwo(client, text) {
   const response = "Segunda Opção";
-  client
-    .sendText(text, response)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });
+
+  try {
+    let resultado = await client
+      .sendText(text, response)
+    console.log('Result: ', resultado)
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+
+  /* client
+     .sendText(text, response)
+     .then((result) => {
+       console.log("Result: ", result);
+     })
+     .catch((error) => {
+       console.error("Erro ao enviar mensagem: ", error);
+     });*/
 }
 
-function funcThr(client, text) {
+async function funcThr(client, text) {
   const response = "Terceira Opção";
-  client
+
+  try {
+    let resultado = await client
+      .sendText(text, response)
+    console.log('Result: ', resultado)
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+
+  /*client
     .sendText(text, response)
     .then((result) => {
       console.log("Result: ", result);
     })
     .catch((error) => {
       console.error("Erro ao enviar mensagem: ", error);
-    });
+    });*/
 }
 
-function finalizando(client, text) {
+async function finalizando(client, text) {
   const response = "Obrigado por entrar em contato. Espero ter ajudado.";
-  client
+
+  try {
+    let resultado = await client
+      .sendText(text, response)
+    console.log('Result: ', resultado)
+  } catch (erro) {
+    console.error('Error when sending: ', erro); //return object error
+  }
+
+  /*client
     .sendText(text, response)
     .then((result) => {
       console.log("Result: ", result);
     })
     .catch((error) => {
       console.error("Erro ao enviar mensagem: ", error);
-    });
+    });*/
 }
