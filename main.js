@@ -3,7 +3,7 @@ const wppconnect = require("@wppconnect-team/wppconnect");
 
 wppconnect
   .create({
-    session: "WhatsMOD", //Pass the name of the client you want to start the bot
+    session: "ChatBotIFPA", //Pass the name of the client you want to start the bot
     statusFind: (statusSession, session) => {
       console.log("Status Session: ", statusSession); //return isLogged || notLogged || browserClose || qrReadSuccess || qrReadFail || autocloseCalled || desconnectedMobile || deleteToken
       //Create session wss return "serverClose" case server for close
@@ -40,64 +40,62 @@ wppconnect
 // Variável para rastrear o estado da conversa
 const conversationState = {};
 
-const lista = 
-"1. PSU 2024 - Seu futuro é no IFPA\n" +
-"2. Link ao site IFPA\n" +
-"3. Endereços IFPA - Campus Tucuruí\n" +
-"4. Finalizar o atendimento";
+const lista =
+  "1. PSU 2024 - Seu futuro é no IFPA\n" +
+  "2. Link ao site IFPA\n" +
+  "3. Endereços IFPA - Campus Tucuruí\n" +
+  "4. Finalizar o atendimento";
 
 function start(client) {
   client.onMessage((message) => {
     if (message.isGroupMsg === false) {
-      const user = message.from; //Aqui é armazenada as informações do user que está interagindo com o bot(message.from = mensagem de "user")
-      if (!conversationState[user]) {
-        //Aqui faz um teste se o user já existe, caso não ele cria na proxima linha e incia na etapa 0
-        conversationState[user] = { step: 0 };
+      const userId = message.from; //Aqui é armazenada as informações do userId que está interagindo com o bot(message.from = mensagem de "userId")
+      if (!conversationState[userId]) {
+        //Aqui faz um teste se o userId já existe, caso não ele cria na proxima linha e incia na etapa 0
+        conversationState[userId] = { step: 0 };
       }
 
-      handleConversation(client, user, message.body); //(cliente atual, dados do user de origem, corpo da mensagem)
+      handleConversation(client, userId, message.body); //(cliente atual, dados do userId de origem, corpo da mensagem)
     }
   });
 }
-
-function handleConversation(client, user, message) {
-  const state = conversationState[user]; // Aqui state vai receber vai obter o estado atual do user em especifico salvo no objeto conversationState
+function handleConversation(client, userId, message) {
+  const state = conversationState[userId]; // Aqui state vai receber vai obter o estado atual do userId em especifico salvo no objeto conversationState
   switch (state.step) {
     case 0:
-      mensagemInicial(client, user);
+      mensagemInicial(client, userId);
       state.step = 1;
       break;
     case 1:
       const choice = parseInt(message);
       if (!isNaN(choice) && choice >= 1 && choice <= 3) {
-        handleChoice(client, user, choice);
+        handleChoice(client, userId, choice);
         state.step = 1; // Mantem na mesma linha de escolhas
       } else if (!isNaN(choice) && choice == 4) {
-        handleChoice(client, user, choice);
+        handleChoice(client, userId, choice);
         state.step = 0; // Reiniciar o ciclo
       } else {
-        sendDefaultResponse(client, user);
+        sendDefaultResponse(client, userId);
       }
       break;
   }
 }
-
-function handleChoice(client, user, choice) {
+function handleChoice(client, userId, choice) {
   switch (choice) {
     case 1:
-      funcOne(client, user);
+     responseOne(client, userId);
       break;
     case 2:
-      funcTwo(client, user);
+      responseTwo(client, userId);
       break;
     case 3:
-      funcThr(client, user);
+      responseThree(client, userId);
       break;
     case 4:
-      finalizando(client, user);
+      finalizando(client, userId);
       break;
     default:
-      sendDefaultResponse(client, user);
+      sendDefaultResponse(client, userId);
   }
 }
 
@@ -113,7 +111,7 @@ function saudacaoPorHora() {
   }
 }
 
-async function mensagemInicial(client, texto) {
+async function mensagemInicial(client, userId) {
   const hora = saudacaoPorHora();
   const textoInicial =
     hora +
@@ -121,133 +119,115 @@ async function mensagemInicial(client, texto) {
     lista;
 
   try {
-    let resultado = await client.sendText(texto, textoInicial);
+    let resultado = await client.sendText(userId, textoInicial);
     console.log("Result: ", resultado);
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
-  /*
-    client
-    .sendText(texto, textoInicial)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });*/
 }
 
-async function sendDefaultResponse(client, recipient) {
+async function sendDefaultResponse(client, userId) {
   // Resposta padrão para mensagens que o bot não entende.
   const response =
     "Desculpe, não entendi sua pergunta. Por favor, digite algo referente as opções para obter informações relevantes.";
 
   try {
-    let resultado = await client.sendText(recipient, response);
+    let resultado = await client.sendText(userId, response);
     console.log("Result: ", resultado);
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
-  /*  client
-    .sendText(recipient, response)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });*/
 }
 
-async function funcOne(client, text) {
+async function responseOne(client, userId) {
   const response =
-    "O Instituto Federal do Pará (IFPA) deu início ao Processo Seletivo Unificado (PSU) 2024.\n" +
-    "Em Tucuruí, são 175 vagas para cursos técnicos integrados, 40 vagas para curso técnico subsequente e 160 para cursos superiores de graduação, totalizando 375 vagas gratuitas." +
-    "O período de inscrições ocorre a partir das 15h do dia 26 de outubro até às 23h59 do dia 27 de novembro, exclusivamente pela internet, no site do processo seletivo do IFPA: https://prosel.ifpa.edu.br/psu2024.";
+    `
+    🎓 Processo Seletivo Unificado (PSU) 2024 - IFPA Tucuruí 📚
+    
+    O Instituto Federal do Pará (IFPA) está com inscrições abertas para o Processo Seletivo Unificado (PSU) 2024 em Tucuruí! 🚀
+    
+    Vagas Disponíveis:
+    Cursos Técnicos Integrados: 175 vagas
+    Curso Técnico Subsequente: 40 vagas
+    Cursos Superiores de Graduação: 160 vagas
+    Totalizando 375 vagas gratuitas para diversos cursos.
+    
+    ⏰ Período de Inscrições:
+    
+    Início: 26 de outubro às 15h
+    Término: 27 de novembro às 23h59
+    🌐 Inscrições Online:
+    Acesse o site do processo seletivo do IFPA para realizar a inscrição: https://prosel.ifpa.edu.br/psu2024
+    
+    Não perca a chance de fazer parte do IFPA! 🌟`;
 
   try {
-    let resultado = await client.sendText(text, response);
-    console.log("Result: ", resultado);
-    // let resultado2 = await client.sendText(text, lista);
-    // console.log("Result: ", resultado2);
+    
+    
   } catch (erro) {
-    console.error("Error when sending: ", erro); //return object error
+    console.error("Error when sending: ", erro);
   }
-
-  /*client
-    .sendText(text, response)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });*/
-}
-
-async function funcTwo(client, text) {
-  const response =
-    "Acesse o site do IFPA Campus Tucuruí por esse link:\n" +
-    "https://tucurui.ifpa.edu.br/";
 
   try {
-    let resultado = await client.sendText(text, response);
+
+    let imageIF = await client.sendImage(
+      userId,
+      "./img/psu_2024.png"
+    );
+    console.log("Result: ", imageIF);
+
+    let resultado = await client.sendText(userId, response);
     console.log("Result: ", resultado);
-    // let resultado2 = await client.sendText(text, lista);
-    // console.log("Result: ", resultado2);
+    
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
 
-  /* client
-     .sendText(text, response)
-     .then((result) => {
-       console.log("Result: ", result);
-     })
-     .catch((error) => {
-       console.error("Erro ao enviar mensagem: ", error);
-     });*/
 }
 
-async function funcThr(client, text) {
+async function responseTwo(client, userId) {
   const response =
-    "A seguir a lista de endereços do IFPA Campus Tucuruí" +
-    "\n\nPrédio principal: Av. Brasília, s/n - Vila Permanente, Tucuruí - PA CEP: 68455-766" +
-    "\n\nPrédio secundario: Rua Porto Colômbia, s/n - Vila Permanente, Tucuruí - PA - CEP 68455695";
+    `🌐 Acesse o site do IFPA Campus Tucuruí através deste link: https://tucurui.ifpa.edu.br/ 🏫`;
 
   try {
-    let resultado = await client.sendText(text, response);
+    let resultado = await client.sendText(userId, response);
     console.log("Result: ", resultado);
-    // let resultado2 = await client.sendText(text, lista);
-    // console.log("Result: ", resultado2);
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
-
-  /*client
-    .sendText(text, response)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });*/
 }
 
-async function finalizando(client, text) {
+async function responseThree(client, userId) {
+  const response =
+  `
+  🏛 *A seguir, a lista de endereços do IFPA Campus Tucuruí:* 🌍
+  
+  *Prédio Principal:*
+  Av. Brasília, s/n - Vila Permanente
+  Tucuruí - PA
+  CEP: 68455-766
+  
+  *Prédio Secundário:*
+  Rua Porto Colômbia, s/n - Vila Permanente
+  Tucuruí - PA
+  CEP: 68455-695
+  `;
+
+  try {
+    let resultado = await client.sendText(userId, response);
+    console.log("Result: ", resultado);
+  } catch (erro) {
+    console.error("Error when sending: ", erro); //return object error
+  }
+}
+
+async function finalizando(client, userId) {
   const response = "Obrigado por entrar em contato. Espero ter ajudado.";
 
   try {
-    let resultado = await client.sendText(text, response);
+    let resultado = await client.sendText(userId, response);
     console.log("Result: ", resultado);
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
-
-  /*client
-    .sendText(text, response)
-    .then((result) => {
-      console.log("Result: ", result);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem: ", error);
-    });*/
 }

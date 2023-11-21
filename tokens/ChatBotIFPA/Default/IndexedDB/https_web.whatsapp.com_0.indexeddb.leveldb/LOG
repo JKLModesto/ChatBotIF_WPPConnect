@@ -1,0 +1,27 @@
+2023/11/20-19:09:37.256 2644 Reusing MANIFEST C:\Users\pedro\OneDrive\Área de Trabalho\OneBitCode\Programando\wpp connect\tokens\ChatBotIFPA\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/11/20-19:09:37.256 2644 Recovering log #30
+2023/11/20-19:09:37.284 2644 Reusing old log C:\Users\pedro\OneDrive\Área de Trabalho\OneBitCode\Programando\wpp connect\tokens\ChatBotIFPA\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000030.log 
+2023/11/20-19:09:48.541 2644 Level-0 table #35: started
+2023/11/20-19:09:48.557 2644 Level-0 table #35: 1439598 bytes OK
+2023/11/20-19:09:48.559 2644 Delete type=0 #30
+2023/11/20-19:09:48.560 2644 Compacting 1@1 + 1@2 files
+2023/11/20-19:09:48.608 2644 Generated table #36@1: 51735 keys, 2277558 bytes
+2023/11/20-19:09:48.613 2644 Generated table #37@1: 675 keys, 10841 bytes
+2023/11/20-19:09:48.614 2644 Compacted 1@1 + 1@2 files => 2288399 bytes
+2023/11/20-19:09:48.615 2644 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/11/20-19:09:48.616 2644 Delete type=2 #32
+2023/11/20-19:09:48.616 2644 Delete type=2 #35
+2023/11/20-19:39:57.649 2644 Level-0 table #39: started
+2023/11/20-19:39:57.675 2644 Level-0 table #39: 1471216 bytes OK
+2023/11/20-19:39:57.678 2644 Delete type=0 #34
+2023/11/20-19:41:18.348 2644 Compacting 1@1 + 2@2 files
+2023/11/20-19:41:18.386 2644 Generated table #40@1: 47181 keys, 2283510 bytes
+2023/11/20-19:41:18.393 2644 Generated table #41@1: 9725 keys, 207042 bytes
+2023/11/20-19:41:18.393 2644 Compacted 1@1 + 2@2 files => 2490552 bytes
+2023/11/20-19:41:18.395 2644 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/11/20-19:41:18.395 2644 Delete type=2 #36
+2023/11/20-19:41:18.395 2644 Delete type=2 #37
+2023/11/20-19:41:18.395 2644 Delete type=2 #39
+2023/11/20-23:07:07.083 cd8 Level-0 table #43: started
+2023/11/20-23:07:07.099 cd8 Level-0 table #43: 1279058 bytes OK
+2023/11/20-23:07:07.102 cd8 Delete type=0 #38
