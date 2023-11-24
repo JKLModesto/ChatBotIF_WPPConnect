@@ -1,6 +1,5 @@
 const wppconnect = require("@wppconnect-team/wppconnect");
 
-
 wppconnect
   .create({
     session: "ChatBotIFPA", //Pass the name of the client you want to start the bot
@@ -40,11 +39,12 @@ wppconnect
 // Variável para rastrear o estado da conversa
 const conversationState = {};
 
-const lista =
-  "1. PSU 2024 - Seu futuro é no IFPA\n" +
-  "2. Link ao site IFPA\n" +
-  "3. Endereços IFPA - Campus Tucuruí\n" +
-  "4. Finalizar o atendimento";
+const lista = `
+  1. PSU 2024 - Seu futuro é no IFPA 
+  2. Link ao site IFPA 
+  3. Endereços IFPA - Campus Tucuruí
+  4. Video apresentação Ciência da Computação
+  5. Finalizar o atendimento`;
 
 function start(client) {
   client.onMessage((message) => {
@@ -68,10 +68,10 @@ function handleConversation(client, userId, message) {
       break;
     case 1:
       const choice = parseInt(message);
-      if (!isNaN(choice) && choice >= 1 && choice <= 3) {
+      if (!isNaN(choice) && choice >= 1 && choice <= 4) {
         handleChoice(client, userId, choice);
         state.step = 1; // Mantem na mesma linha de escolhas
-      } else if (!isNaN(choice) && choice == 4) {
+      } else if (!isNaN(choice) && choice == 5) {
         handleChoice(client, userId, choice);
         state.step = 0; // Reiniciar o ciclo
       } else {
@@ -80,10 +80,12 @@ function handleConversation(client, userId, message) {
       break;
   }
 }
+
 function handleChoice(client, userId, choice) {
   switch (choice) {
     case 1:
-     responseOne(client, userId);
+      responseOne(client, userId);
+      responseOnePointOne(client, userId);
       break;
     case 2:
       responseTwo(client, userId);
@@ -92,6 +94,10 @@ function handleChoice(client, userId, choice) {
       responseThree(client, userId);
       break;
     case 4:
+      responseFour(client, userId);
+      responseFourPointOne(client, userId);
+      break;
+    case 5:
       finalizando(client, userId);
       break;
     default:
@@ -140,8 +146,16 @@ async function sendDefaultResponse(client, userId) {
 }
 
 async function responseOne(client, userId) {
-  const response =
-    `
+  try {
+    let imageIF = await client.sendImage(userId, "./img/psu_2024.png");
+    console.log("Result: ", imageIF);
+  } catch (erro) {
+    console.error("Error when sending: ", erro);
+  }
+}
+
+async function responseOnePointOne(client, userId) {
+  const response = `
     🎓 Processo Seletivo Unificado (PSU) 2024 - IFPA Tucuruí 📚
     
     O Instituto Federal do Pará (IFPA) está com inscrições abertas para o Processo Seletivo Unificado (PSU) 2024 em Tucuruí! 🚀
@@ -162,32 +176,15 @@ async function responseOne(client, userId) {
     Não perca a chance de fazer parte do IFPA! 🌟`;
 
   try {
-    
-    
-  } catch (erro) {
-    console.error("Error when sending: ", erro);
-  }
-
-  try {
-
-    let imageIF = await client.sendImage(
-      userId,
-      "./img/psu_2024.png"
-    );
-    console.log("Result: ", imageIF);
-
     let resultado = await client.sendText(userId, response);
     console.log("Result: ", resultado);
-    
   } catch (erro) {
     console.error("Error when sending: ", erro); //return object error
   }
-
 }
 
 async function responseTwo(client, userId) {
-  const response =
-    `🌐 Acesse o site do IFPA Campus Tucuruí através deste link: https://tucurui.ifpa.edu.br/ 🏫`;
+  const response = `🌐 Acesse o site do IFPA Campus Tucuruí através deste link: https://tucurui.ifpa.edu.br/ 🏫`;
 
   try {
     let resultado = await client.sendText(userId, response);
@@ -198,8 +195,7 @@ async function responseTwo(client, userId) {
 }
 
 async function responseThree(client, userId) {
-  const response =
-  `
+  const response = `
   🏛 *A seguir, a lista de endereços do IFPA Campus Tucuruí:* 🌍
   
   *Prédio Principal:*
@@ -221,6 +217,39 @@ async function responseThree(client, userId) {
   }
 }
 
+async function responseFour(client, userId) {
+  try {
+    let resultado = await client.sendFile(
+      userId,
+      "./img/video_ciencia_comp.mp4",
+      'video_ciencia_comp'
+    );
+    console.log("Result: ", resultado);
+  } catch (erro) {
+    console.error("Error when sending: ", erro); //return object error
+  }
+}
+
+async function responseFourPointOne(client, userId) {
+  const response = `
+  O IFPA Campus Tucuruí oferta 40 vagas gratuitas para o curso superior em Ciências da Computação 📣📣📣 
+
+  Com duração de 4 anos, o curso é voltado para candidatos que estão concluindo ou já concluíram o Ensino Médio. 
+  
+  As inscrições podem ser realizadas até 27 de novembro de 2023. A taxa de inscrição é R$ 40,00. 
+  
+  Confira no vídeo a explicação da estudante Thaís de Oliveira sobre o curso de Ciências da Computação. 
+  
+  📍Para mais informações, acesse: https://tucurui.ifpa.edu.br/ultimas-noticias/636-ifpa-campus-tucurui-oferta-375-vagas-em-cursos-tecnicos-e-superiores.
+  `;
+  try {
+    let resultado = await client.sendText(userId, response);
+    console.log("Result: ", resultado);
+  } catch (erro) {
+    console.error("Error when sending: ", erro); //return object error
+  }
+}
+
 async function finalizando(client, userId) {
   const response = "Obrigado por entrar em contato. Espero ter ajudado.";
 
@@ -231,3 +260,32 @@ async function finalizando(client, userId) {
     console.error("Error when sending: ", erro); //return object error
   }
 }
+
+// async function finalizando(client, userId){
+//   try {
+//     let resultado = await client.sendText(userId, 'WPPConnect message with buttons', {
+//       useTemplateButtons: true, // False for legacy
+//       buttons: [
+//         {
+//           url: 'https://wppconnect.io/',
+//           text: 'WPPConnect Site'
+//         },
+//         {
+//           phoneNumber: '+55 11 22334455',
+//           text: 'Call me'
+//         },
+//         {
+//           id: 'your custom id 1',
+//           text: 'Some text'
+//         },
+//         {
+//           id: 'another id 2',
+//           text: 'Another text'
+//         }
+//       ],
+//    })
+//     console.log("Result: ", resultado);
+//   } catch (erro) {
+//     console.error("Error when sending: ", erro); //return object error
+//   }
+// }
