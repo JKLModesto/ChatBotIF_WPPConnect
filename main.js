@@ -1,4 +1,5 @@
 const wppconnect = require("@wppconnect-team/wppconnect");
+const db = require("./js/db")
 
 wppconnect
   .create({
@@ -39,12 +40,12 @@ wppconnect
 // Variável para rastrear o estado da conversa
 const conversationState = {};
 
-const lista = `
-  1. PSU 2024 - Seu futuro é no IFPA 
-  2. Link ao site IFPA 
-  3. Endereços IFPA - Campus Tucuruí
-  4. Video apresentação Ciência da Computação
-  5. Finalizar o atendimento`;
+// const lista = `
+//   1. PSU 2024 - Seu futuro é no IFPA 
+//   2. Link ao site IFPA 
+//   3. Endereços IFPA - Campus Tucuruí
+//   4. Video apresentação Ciência da Computação
+//   5. Finalizar o atendimento`;
 
 function start(client) {
   client.onMessage((message) => {
@@ -122,7 +123,7 @@ async function mensagemInicial(client, userId) {
   const textoInicial =
     hora +
     ", bem vindo ao ChatBot do IFPA. A seguir algumas opções para você: \n" +
-    lista;
+    db.menuAtendimento;
 
   try {
     let resultado = await client.sendText(userId, textoInicial);
